@@ -9,6 +9,7 @@ import { AddUser } from './pages/AddUser';
 import { Events } from './pages/Events';
 import { CreateEvent } from './pages/CreateEvent';
 import { Societies } from './pages/Societies';
+import { AddSociety } from './pages/AddSociety';
 import { Vendors } from './pages/Vendors';
 import { Exhibitors } from './pages/Exhibitors';
 import { Calendar } from './pages/Calendar';
@@ -67,6 +68,11 @@ const AppRoutes: React.FC = () => {
       <Route path="/societies" element={
         <ProtectedRoute>
           <Societies />
+        </ProtectedRoute>
+      } />
+      <Route path="/societies/add" element={
+        <ProtectedRoute>
+          <AddSociety />
         </ProtectedRoute>
       } />
       <Route path="/vendors" element={
