@@ -20,6 +20,7 @@ import {
   MousePointer,
   Activity
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from '../components/UI/Card';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/UI/Table';
 import { Badge } from '../components/UI/Badge';
@@ -196,11 +197,30 @@ const mockCampaigns: Campaign[] = [
       ctr: 2.0,
       cpc: 22.6
     }
+  },
+  {
+    id: '2',
+    name: 'Summer Festival Marketing',
+    description: 'Marketing campaign for summer cultural festivals',
+    startDate: '2024-04-01',
+    endDate: '2024-06-30',
+    budget: 200000,
+    spent: 45000,
+    targetAudience: 'Families and young adults',
+    status: 'active',
+    ads: ['3'],
+    performance: {
+      impressions: 85000,
+      clicks: 1700,
+      conversions: 170,
+      ctr: 2.0,
+      cpc: 26.5
+    }
   }
 ];
 
 export const AdsSponsors: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'ads' | 'sponsors' | 'campaigns'>('ads');
+  const [activeTab, setActiveTab] = useState<'campaigns' | 'ads' | 'sponsors'>('campaigns');
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -239,20 +259,22 @@ export const AdsSponsors: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Ads & Sponsors</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Ads & Sponsors</h1>
           <p className="text-gray-600">Manage advertisements, sponsorships, and marketing campaigns</p>
         </div>
-        <div className="flex space-x-3">
-          <Button variant="outline" className="flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+          <Button variant="outline" className="flex items-center space-x-2 w-full sm:w-auto justify-center">
             <Download className="h-4 w-4" />
             <span>Export Report</span>
           </Button>
-          <Button className="flex items-center space-x-2" onClick={() => setShowAddModal(true)}>
-            <Plus className="h-4 w-4" />
-            <span>New Campaign</span>
-          </Button>
+          <Link to="/ads-sponsors/campaigns/create">
+            <Button className="flex items-center space-x-2 w-full sm:w-auto justify-center">
+              <Plus className="h-4 w-4" />
+              <span>New Campaign</span>
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -341,9 +363,9 @@ export const AdsSponsors: React.FC = () => {
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           {[
+            { id: 'campaigns', label: 'Campaigns', count: mockCampaigns.length },
             { id: 'ads', label: 'Advertisements', count: mockAds.length },
-            { id: 'sponsors', label: 'Sponsors', count: mockSponsors.length },
-            { id: 'campaigns', label: 'Campaigns', count: mockCampaigns.length }
+            { id: 'sponsors', label: 'Sponsors', count: mockSponsors.length }
           ].map((tab) => (
             <button
               key={tab.id}
@@ -362,6 +384,96 @@ export const AdsSponsors: React.FC = () => {
           ))}
         </nav>
       </div>
+
+      {/* Campaigns Tab */}
+      {activeTab === 'campaigns' && (
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-gray-900">Marketing Campaigns</h3>
+            <Link to="/ads-sponsors/campaigns/create">
+              <Button className="flex items-center space-x-2">
+                <Plus className="h-4 w-4" />
+                <span>Create Campaign</span>
+              </Button>
+            </Link>
+          </div>
+          
+          {mockCampaigns.map((campaign) => (
+            <Card key={campaign.id}>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">{campaign.name}</h3>
+                    <p className="text-gray-600">{campaign.description}</p>
+                  </div>
+                  <Badge variant={getStatusVariant(campaign.status)}>
+                    {campaign.status}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-2">Budget</h4>
+                    <div className="text-2xl font-bold text-gray-900">₹{campaign.budget.toLocaleString()}</div>
+                    <div className="text-sm text-gray-500">Spent: ₹{campaign.spent.toLocaleString()}</div>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                      <div 
+                        className="bg-blue-600 h-2 rounded-full"
+                        style={{ width: `${(campaign.spent / campaign.budget) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-2">Performance</h4>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Impressions:</span>
+                        <span className="font-medium">{campaign.performance.impressions.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Clicks:</span>
+                        <span className="font-medium">{campaign.performance.clicks.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">CTR:</span>
+                        <span className="font-medium">{campaign.performance.ctr}%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-2">Duration</h4>
+                    <div className="text-sm">
+                      <div>{new Date(campaign.startDate).toLocaleDateString()}</div>
+                      <div className="text-gray-500">to {new Date(campaign.endDate).toLocaleDateString()}</div>
+                    </div>
+                    <div className="mt-2">
+                      <span className="text-sm text-gray-600">Target: </span>
+                      <span className="text-sm font-medium">{campaign.targetAudience}</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-2">Actions</h4>
+                    <div className="flex flex-col space-y-2">
+                      <Button size="sm" variant="outline" onClick={() => handleViewDetails(campaign)}>
+                        <BarChart3 className="h-4 w-4 mr-2" />
+                        View Analytics
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <Edit className="h-4 w-4 mr-2" />
+                        Edit Campaign
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
 
       {/* Advertisements Tab */}
       {activeTab === 'ads' && (
@@ -553,86 +665,6 @@ export const AdsSponsors: React.FC = () => {
             </Table>
           </CardContent>
         </Card>
-      )}
-
-      {/* Campaigns Tab */}
-      {activeTab === 'campaigns' && (
-        <div className="space-y-6">
-          {mockCampaigns.map((campaign) => (
-            <Card key={campaign.id}>
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{campaign.name}</h3>
-                    <p className="text-gray-600">{campaign.description}</p>
-                  </div>
-                  <Badge variant={getStatusVariant(campaign.status)}>
-                    {campaign.status}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Budget</h4>
-                    <div className="text-2xl font-bold text-gray-900">₹{campaign.budget.toLocaleString()}</div>
-                    <div className="text-sm text-gray-500">Spent: ₹{campaign.spent.toLocaleString()}</div>
-                    <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                      <div 
-                        className="bg-blue-600 h-2 rounded-full"
-                        style={{ width: `${(campaign.spent / campaign.budget) * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Performance</h4>
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Impressions:</span>
-                        <span className="font-medium">{campaign.performance.impressions.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Clicks:</span>
-                        <span className="font-medium">{campaign.performance.clicks.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">CTR:</span>
-                        <span className="font-medium">{campaign.performance.ctr}%</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Duration</h4>
-                    <div className="text-sm">
-                      <div>{new Date(campaign.startDate).toLocaleDateString()}</div>
-                      <div className="text-gray-500">to {new Date(campaign.endDate).toLocaleDateString()}</div>
-                    </div>
-                    <div className="mt-2">
-                      <span className="text-sm text-gray-600">Target: </span>
-                      <span className="text-sm font-medium">{campaign.targetAudience}</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Actions</h4>
-                    <div className="flex flex-col space-y-2">
-                      <Button size="sm" variant="outline" onClick={() => handleViewDetails(campaign)}>
-                        <BarChart3 className="h-4 w-4 mr-2" />
-                        View Analytics
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        <Edit className="h-4 w-4 mr-2" />
-                        Edit Campaign
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
       )}
 
       {/* Detail Modal */}
