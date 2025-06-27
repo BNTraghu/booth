@@ -5,6 +5,7 @@ import { Layout } from './components/Layout/Layout';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { Users } from './pages/Users';
+import { AddUser } from './pages/AddUser';
 import { Events } from './pages/Events';
 import { Societies } from './pages/Societies';
 import { Vendors } from './pages/Vendors';
@@ -45,6 +46,11 @@ const AppRoutes: React.FC = () => {
       <Route path="/users" element={
         <ProtectedRoute>
           <Users />
+        </ProtectedRoute>
+      } />
+      <Route path="/users/add" element={
+        <ProtectedRoute>
+          <AddUser />
         </ProtectedRoute>
       } />
       <Route path="/events" element={
