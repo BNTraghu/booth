@@ -254,10 +254,10 @@ export const CreateCampaign: React.FC = () => {
       ...prev,
       targeting: {
         ...prev.targeting,
-        [category]: {
+        [category]: field ? {
           ...prev.targeting[category],
           [field]: value
-        }
+        } : value
       }
     }));
   };
