@@ -14,6 +14,7 @@ import {
   Trash2,
   Download
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from '../components/UI/Card';
 import { Badge } from '../components/UI/Badge';
 import { Button } from '../components/UI/Button';
@@ -95,31 +96,33 @@ export const Calendar: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Event Calendar</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Event Calendar</h1>
           <p className="text-gray-600">Manage and view all scheduled events</p>
         </div>
-        <div className="flex space-x-3">
-          <Button variant="outline" className="flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+          <Button variant="outline" className="flex items-center space-x-2 w-full sm:w-auto justify-center">
             <Download className="h-4 w-4" />
             <span>Export</span>
           </Button>
-          <Button className="flex items-center space-x-2">
-            <Plus className="h-4 w-4" />
-            <span>New Event</span>
-          </Button>
+          <Link to="/events/create">
+            <Button className="flex items-center space-x-2 w-full sm:w-auto justify-center">
+              <Plus className="h-4 w-4" />
+              <span>New Event</span>
+            </Button>
+          </Link>
         </div>
       </div>
 
       {/* Calendar Controls */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <Button variant="outline" size="sm" onClick={handlePrevMonth}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <h2 className="text-xl font-semibold text-gray-900 min-w-[200px] text-center">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 min-w-[150px] sm:min-w-[200px] text-center">
               {format(currentDate, 'MMMM yyyy')}
             </h2>
             <Button variant="outline" size="sm" onClick={handleNextMonth}>
@@ -137,7 +140,7 @@ export const Calendar: React.FC = () => {
               <button
                 key={mode}
                 onClick={() => setViewMode(mode as any)}
-                className={`px-3 py-1 text-sm font-medium rounded-md capitalize transition-colors duration-200 ${
+                className={`px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-md capitalize transition-colors duration-200 ${
                   viewMode === mode
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -154,11 +157,11 @@ export const Calendar: React.FC = () => {
         {/* Calendar Grid */}
         <div className="lg:col-span-3">
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               {/* Calendar Header */}
               <div className="grid grid-cols-7 gap-1 mb-4">
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                  <div key={day} className="p-2 text-center text-sm font-medium text-gray-500">
+                  <div key={day} className="p-2 text-center text-xs sm:text-sm font-medium text-gray-500">
                     {day}
                   </div>
                 ))}
@@ -175,13 +178,13 @@ export const Calendar: React.FC = () => {
                     <div
                       key={date.toISOString()}
                       onClick={() => handleDateClick(date)}
-                      className={`min-h-[100px] p-2 border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors duration-200 ${
+                      className={`min-h-[80px] sm:min-h-[100px] p-1 sm:p-2 border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors duration-200 ${
                         !isCurrentMonth ? 'bg-gray-50 text-gray-400' : ''
                       } ${isSelected ? 'bg-blue-50 border-blue-300' : ''} ${
                         isToday(date) ? 'bg-blue-100 border-blue-400' : ''
                       }`}
                     >
-                      <div className={`text-sm font-medium mb-1 ${
+                      <div className={`text-xs sm:text-sm font-medium mb-1 ${
                         isToday(date) ? 'text-blue-600' : isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
                       }`}>
                         {format(date, 'd')}
@@ -193,7 +196,8 @@ export const Calendar: React.FC = () => {
                             className={`text-xs p-1 rounded text-white truncate ${event.color}`}
                             title={event.title}
                           >
-                            {event.title}
+                            <span className="hidden sm:inline">{event.title}</span>
+                            <span className="sm:hidden">•</span>
                           </div>
                         ))}
                         {events.length > 2 && (
@@ -221,25 +225,36 @@ export const Calendar: React.FC = () => {
               {upcomingEvents.map((event) => (
                 <div key={event.id} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
                   <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-gray-900 text-sm">{event.title}</h4>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-gray-900 text-sm truncate">{event.title}</h4>
                       <div className="flex items-center text-xs text-gray-600 mt-1">
-                        <CalendarIcon className="h-3 w-3 mr-1" />
-                        {format(new Date(event.date), 'MMM d')}
+                        <CalendarIcon className="h-3 w-3 mr-1 flex-shrink-0" />
+                        <span>{format(new Date(event.date), 'MMM d')}</span>
                       </div>
                       <div className="flex items-center text-xs text-gray-600 mt-1">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {event.time}
+                        <Clock className="h-3 w-3 mr-1 flex-shrink-0" />
+                        <span>{event.time}</span>
                       </div>
                       <div className="flex items-center text-xs text-gray-600 mt-1">
-                        <MapPin className="h-3 w-3 mr-1" />
-                        {event.venue}
+                        <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                        <span className="truncate">{event.venue}</span>
                       </div>
                     </div>
-                    <div className={`w-3 h-3 rounded-full ${event.color}`}></div>
+                    <div className={`w-3 h-3 rounded-full ${event.color} flex-shrink-0`}></div>
                   </div>
                 </div>
               ))}
+              {upcomingEvents.length === 0 && (
+                <div className="text-center py-4">
+                  <p className="text-sm text-gray-500">No upcoming events</p>
+                  <Link to="/events/create">
+                    <Button size="sm" className="mt-2">
+                      <Plus className="h-4 w-4 mr-1" />
+                      Create Event
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -314,7 +329,7 @@ export const Calendar: React.FC = () => {
             </div>
             
             <div className="p-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-gray-700">Date</label>
                   <p className="text-gray-900">{format(new Date(selectedEvent.date), 'MMMM d, yyyy')}</p>
@@ -330,7 +345,7 @@ export const Calendar: React.FC = () => {
                 <p className="text-gray-900">{selectedEvent.venue}</p>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-gray-700">Status</label>
                   <div className="mt-1">
@@ -345,12 +360,12 @@ export const Calendar: React.FC = () => {
                 </div>
               </div>
               
-              <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
-                <Button variant="outline">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-6 border-t border-gray-200">
+                <Button variant="outline" className="w-full sm:w-auto">
                   <Edit className="h-4 w-4 mr-2" />
                   Edit Event
                 </Button>
-                <Button>
+                <Button className="w-full sm:w-auto">
                   <Eye className="h-4 w-4 mr-2" />
                   View Details
                 </Button>
