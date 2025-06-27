@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Plus, Edit, Trash2, Eye, MapPin, Calendar as CalendarIcon, Users, Filter } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, MapPin, Calendar as CalendarIcon, Users, Filter, Search } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from '../components/UI/Card';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/UI/Table';
 import { Badge } from '../components/UI/Badge';
@@ -10,10 +11,16 @@ export const Events: React.FC = () => {
   const [events] = useState(mockEvents);
   const [filter, setFilter] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const filteredEvents = events.filter(event => {
-    if (filter === 'all') return true;
-    return event.status === filter;
+    const matchesFilter = filter === 'all' || event.status === filter;
+    const matchesSearch = searchTerm === '' || 
+      event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.venue.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.city.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    return matchesFilter && matchesSearch;
   });
 
   const getStatusVariant = (status: string) => {
@@ -33,11 +40,45 @@ export const Events: React.FC = () => {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Events Management</h1>
           <p className="text-sm sm:text-base text-gray-600">Manage all society events and bookings</p>
         </div>
-        <Button className="flex items-center space-x-2 w-full sm:w-auto justify-center">
-          <Plus className="h-4 w-4" />
-          <span>Create Event</span>
-        </Button>
+        <Link to="/events/create">
+          <Button className="flex items-center space-x-2 w-full sm:w-auto justify-center">
+            <Plus className="h-4 w-4" />
+            <span>Create Event</span>
+          </Button>
+        </Link>
       </div>
+
+      {/* Search and Filter */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search events by title, venue, or city..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Status</option>
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
@@ -137,7 +178,15 @@ export const Events: React.FC = () => {
       {viewMode === 'table' && (
         <Card>
           <CardHeader>
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900">Events Overview</h3>
+            <div className="flex justify-between items-center">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+                Events Overview ({filteredEvents.length})
+              </h3>
+              <Button size="sm" variant="outline">
+                <Filter className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">Advanced Filter</span>
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
             <Table>
