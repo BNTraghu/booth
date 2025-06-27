@@ -17,6 +17,7 @@ import { AddExhibitor } from './pages/AddExhibitor';
 import { ProductsShowcase } from './pages/ProductsShowcase';
 import { Calendar } from './pages/Calendar';
 import { Billing } from './pages/Billing';
+import { CreatePlan } from './pages/CreatePlan';
 import { AdsSponsors } from './pages/AdsSponsors';
 import { Settings } from './pages/Settings';
 import { Reports } from './pages/Reports';
@@ -111,6 +112,11 @@ const AppRoutes: React.FC = () => {
       <Route path="/billing" element={
         <ProtectedRoute>
           <Billing />
+        </ProtectedRoute>
+      } />
+      <Route path="/billing/plans/create" element={
+        <ProtectedRoute>
+          <CreatePlan />
         </ProtectedRoute>
       } />
       <Route path="/ads-sponsors" element={

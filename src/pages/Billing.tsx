@@ -14,8 +14,10 @@ import {
   Filter,
   Search,
   FileText,
-  Send
+  Send,
+  Edit
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from '../components/UI/Card';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/UI/Table';
 import { Badge } from '../components/UI/Badge';
@@ -210,20 +212,22 @@ export const Billing: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Plans & Billing</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Plans & Billing</h1>
           <p className="text-gray-600">Manage subscription plans and billing information</p>
         </div>
-        <div className="flex space-x-3">
-          <Button variant="outline" className="flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+          <Button variant="outline" className="flex items-center space-x-2 w-full sm:w-auto justify-center">
             <Download className="h-4 w-4" />
             <span>Export</span>
           </Button>
-          <Button className="flex items-center space-x-2">
-            <Plus className="h-4 w-4" />
-            <span>New Plan</span>
-          </Button>
+          <Link to="/billing/plans/create">
+            <Button className="flex items-center space-x-2 w-full sm:w-auto justify-center">
+              <Plus className="h-4 w-4" />
+              <span>New Plan</span>
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -322,6 +326,16 @@ export const Billing: React.FC = () => {
       {/* Plans Tab */}
       {activeTab === 'plans' && (
         <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-gray-900">Available Plans</h3>
+            <Link to="/billing/plans/create">
+              <Button className="flex items-center space-x-2">
+                <Plus className="h-4 w-4" />
+                <span>Create New Plan</span>
+              </Button>
+            </Link>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {plans.map((plan) => (
               <Card key={plan.id} className={`relative ${plan.popular ? 'ring-2 ring-blue-500' : ''}`}>
@@ -372,16 +386,21 @@ export const Billing: React.FC = () => {
                     ))}
                   </ul>
 
-                  <Button 
-                    className="w-full" 
-                    variant={plan.popular ? 'primary' : 'outline'}
-                    onClick={() => {
-                      setSelectedPlan(plan);
-                      setShowPlanModal(true);
-                    }}
-                  >
-                    View Details
-                  </Button>
+                  <div className="flex space-x-2">
+                    <Button 
+                      className="flex-1" 
+                      variant={plan.popular ? 'primary' : 'outline'}
+                      onClick={() => {
+                        setSelectedPlan(plan);
+                        setShowPlanModal(true);
+                      }}
+                    >
+                      View Details
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
