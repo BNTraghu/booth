@@ -21,6 +21,7 @@ import {
   FileText,
   Send
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from '../components/UI/Card';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/UI/Table';
 import { Badge } from '../components/UI/Badge';
@@ -134,86 +135,88 @@ export const Exhibitors: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Exhibitor Management</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Exhibitor Management</h1>
           <p className="text-gray-600">Manage exhibitor registrations, booth assignments, and payments</p>
         </div>
-        <div className="flex space-x-3">
-          <Button variant="outline" className="flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+          <Button variant="outline" className="flex items-center space-x-2 w-full sm:w-auto justify-center">
             <Download className="h-4 w-4" />
             <span>Export</span>
           </Button>
-          <Button className="flex items-center space-x-2" onClick={() => setShowAddModal(true)}>
-            <Plus className="h-4 w-4" />
-            <span>Add Exhibitor</span>
-          </Button>
+          <Link to="/exhibitors/add">
+            <Button className="flex items-center space-x-2 w-full sm:w-auto justify-center">
+              <Plus className="h-4 w-4" />
+              <span>Add Exhibitor</span>
+            </Button>
+          </Link>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
             <div className="flex items-center justify-center mb-2">
-              <Building className="h-6 w-6 text-blue-600" />
+              <Building className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
             </div>
-            <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
-            <div className="text-sm text-gray-600">Total Exhibitors</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{stats.total}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Total Exhibitors</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="flex items-center justify-center mb-2">
-              <CheckCircle className="h-6 w-6 text-green-600" />
+              <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
             </div>
-            <div className="text-2xl font-bold text-green-600">{stats.confirmed}</div>
-            <div className="text-sm text-gray-600">Confirmed</div>
+            <div className="text-xl sm:text-2xl font-bold text-green-600">{stats.confirmed}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Confirmed</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="flex items-center justify-center mb-2">
-              <Clock className="h-6 w-6 text-blue-600" />
+              <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
             </div>
-            <div className="text-2xl font-bold text-blue-600">{stats.registered}</div>
-            <div className="text-sm text-gray-600">Registered</div>
+            <div className="text-xl sm:text-2xl font-bold text-blue-600">{stats.registered}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Registered</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="flex items-center justify-center mb-2">
-              <Users className="h-6 w-6 text-purple-600" />
+              <Users className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600" />
             </div>
-            <div className="text-2xl font-bold text-purple-600">{stats.checkedIn}</div>
-            <div className="text-sm text-gray-600">Checked In</div>
+            <div className="text-xl sm:text-2xl font-bold text-purple-600">{stats.checkedIn}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Checked In</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="flex items-center justify-center mb-2">
-              <XCircle className="h-6 w-6 text-red-600" />
+              <XCircle className="h-5 w-5 sm:h-6 sm:w-6 text-red-600" />
             </div>
-            <div className="text-2xl font-bold text-red-600">{stats.cancelled}</div>
-            <div className="text-sm text-gray-600">Cancelled</div>
+            <div className="text-xl sm:text-2xl font-bold text-red-600">{stats.cancelled}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Cancelled</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="flex items-center justify-center mb-2">
-              <DollarSign className="h-6 w-6 text-green-600" />
+              <DollarSign className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
             </div>
-            <div className="text-2xl font-bold text-green-600">₹{(stats.paidAmount / 100000).toFixed(1)}L</div>
-            <div className="text-sm text-gray-600">Paid Amount</div>
+            <div className="text-xl sm:text-2xl font-bold text-green-600">₹{(stats.paidAmount / 100000).toFixed(1)}L</div>
+            <div className="text-xs sm:text-sm text-gray-600">Paid Amount</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="flex items-center justify-center mb-2">
-              <Clock className="h-6 w-6 text-yellow-600" />
+              <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-600" />
             </div>
-            <div className="text-2xl font-bold text-yellow-600">₹{(stats.pendingAmount / 100000).toFixed(1)}L</div>
-            <div className="text-sm text-gray-600">Pending Amount</div>
+            <div className="text-xl sm:text-2xl font-bold text-yellow-600">₹{(stats.pendingAmount / 100000).toFixed(1)}L</div>
+            <div className="text-xs sm:text-sm text-gray-600">Pending Amount</div>
           </CardContent>
         </Card>
       </div>
@@ -283,13 +286,13 @@ export const Exhibitors: React.FC = () => {
       {selectedExhibitors.length > 0 && (
         <Card className="border-blue-200 bg-blue-50">
           <CardContent className="p-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
               <div className="flex items-center space-x-4">
                 <span className="text-sm font-medium text-blue-900">
                   {selectedExhibitors.length} exhibitor(s) selected
                 </span>
               </div>
-              <div className="flex space-x-2">
+              <div className="flex flex-wrap gap-2">
                 <Button size="sm" variant="outline" onClick={() => handleBulkAction('confirm')}>
                   <CheckCircle className="h-4 w-4 mr-1" />
                   Confirm
@@ -321,7 +324,7 @@ export const Exhibitors: React.FC = () => {
             <div className="flex space-x-2">
               <Button size="sm" variant="outline">
                 <Filter className="h-4 w-4 mr-1" />
-                Advanced Filters
+                <span className="hidden sm:inline">Advanced Filters</span>
               </Button>
             </div>
           </div>
@@ -340,9 +343,9 @@ export const Exhibitors: React.FC = () => {
                 </TableHead>
                 <TableHead>Company</TableHead>
                 <TableHead>Contact Person</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Booth</TableHead>
-                <TableHead>Registration Date</TableHead>
+                <TableHead className="hidden md:table-cell">Category</TableHead>
+                <TableHead className="hidden lg:table-cell">Booth</TableHead>
+                <TableHead className="hidden xl:table-cell">Registration Date</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Payment</TableHead>
                 <TableHead>Actions</TableHead>
@@ -361,36 +364,39 @@ export const Exhibitors: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <div>
-                      <div className="font-medium text-gray-900">{exhibitor.companyName}</div>
+                      <div className="font-medium text-gray-900 line-clamp-1">{exhibitor.companyName}</div>
                       <div className="text-sm text-gray-500 flex items-center">
-                        <MapPin className="h-3 w-3 mr-1" />
-                        {exhibitor.city}
+                        <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                        <span className="truncate">{exhibitor.city}</span>
+                      </div>
+                      <div className="text-sm text-gray-500 md:hidden">
+                        {exhibitor.category}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div>
                       <div className="text-sm font-medium text-gray-900">{exhibitor.contactPerson}</div>
-                      <div className="text-sm text-gray-500 flex items-center">
-                        <Mail className="h-3 w-3 mr-1" />
-                        {exhibitor.email}
+                      <div className="text-sm text-gray-500 flex items-center truncate">
+                        <Mail className="h-3 w-3 mr-1 flex-shrink-0" />
+                        <span className="truncate">{exhibitor.email}</span>
                       </div>
                       <div className="text-sm text-gray-500 flex items-center">
-                        <Phone className="h-3 w-3 mr-1" />
-                        {exhibitor.phone}
+                        <Phone className="h-3 w-3 mr-1 flex-shrink-0" />
+                        <span>{exhibitor.phone}</span>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="hidden md:table-cell">
                     <Badge variant="default">{exhibitor.category}</Badge>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="hidden lg:table-cell">
                     <div className="flex items-center">
                       <Building className="h-4 w-4 mr-2 text-blue-500" />
                       <span className="font-medium">{exhibitor.booth}</span>
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="hidden xl:table-cell">
                     <div className="flex items-center text-sm text-gray-900">
                       <Calendar className="h-4 w-4 mr-1" />
                       {new Date(exhibitor.registrationDate).toLocaleDateString()}
@@ -400,7 +406,8 @@ export const Exhibitors: React.FC = () => {
                     <div className="flex items-center">
                       {getStatusIcon(exhibitor.status)}
                       <Badge variant={getStatusVariant(exhibitor.status)} className="ml-2">
-                        {exhibitor.status.replace('_', ' ')}
+                        <span className="hidden sm:inline">{exhibitor.status.replace('_', ' ')}</span>
+                        <span className="sm:hidden">{exhibitor.status.split('_')[0]}</span>
                       </Badge>
                     </div>
                   </TableCell>
@@ -421,13 +428,13 @@ export const Exhibitors: React.FC = () => {
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button size="sm" variant="ghost">
+                      <Button size="sm" variant="ghost" className="hidden sm:inline-flex">
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button size="sm" variant="ghost">
+                      <Button size="sm" variant="ghost" className="hidden sm:inline-flex">
                         <Mail className="h-4 w-4" />
                       </Button>
-                      <Button size="sm" variant="ghost">
+                      <Button size="sm" variant="ghost" className="hidden lg:inline-flex">
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -549,135 +556,20 @@ export const Exhibitors: React.FC = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
-                <Button variant="outline">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-6 border-t border-gray-200">
+                <Button variant="outline" className="w-full sm:w-auto">
                   <FileText className="h-4 w-4 mr-2" />
                   Generate Invoice
                 </Button>
-                <Button variant="outline">
+                <Button variant="outline" className="w-full sm:w-auto">
                   <Send className="h-4 w-4 mr-2" />
                   Send Email
                 </Button>
-                <Button>
+                <Button className="w-full sm:w-auto">
                   <Edit className="h-4 w-4 mr-2" />
                   Edit Details
                 </Button>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Add Exhibitor Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-gray-900">Add New Exhibitor</h2>
-                <button
-                  onClick={() => setShowAddModal(false)}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  <XCircle className="h-6 w-6" />
-                </button>
-              </div>
-            </div>
-            
-            <div className="p-6">
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Company Name *
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter company name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Contact Person *
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter contact person name"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter email address"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone *
-                    </label>
-                    <input
-                      type="tel"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter phone number"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Category *
-                    </label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                      <option value="">Select category</option>
-                      {categories.map(category => (
-                        <option key={category} value={category}>{category}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      City *
-                    </label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                      <option value="">Select city</option>
-                      {cities.map(city => (
-                        <option key={city} value={city}>{city}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Booth Preference
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Enter preferred booth number or area"
-                  />
-                </div>
-
-                <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
-                  <Button variant="outline" onClick={() => setShowAddModal(false)}>
-                    Cancel
-                  </Button>
-                  <Button>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Exhibitor
-                  </Button>
-                </div>
-              </form>
             </div>
           </div>
         </div>
