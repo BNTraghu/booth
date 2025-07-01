@@ -1,5 +1,6 @@
 import React from 'react';
 import { TrendingUp, TrendingDown, Users, Calendar, Building2, Truck, UserCheck, DollarSign } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from '../components/UI/Card';
 import { mockDashboardStats, mockEvents, mockSocieties } from '../data/mockData';
 import { useAuth } from '../contexts/AuthContext';
@@ -163,22 +164,33 @@ export const Dashboard: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            <button className="p-3 sm:p-4 text-center bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors duration-200">
-              <Calendar className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 mx-auto mb-2" />
-              <span className="text-xs sm:text-sm font-medium text-blue-900">Create Event</span>
-            </button>
-            <button className="p-3 sm:p-4 text-center bg-green-50 hover:bg-green-100 rounded-lg transition-colors duration-200">
-              <Building2 className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 mx-auto mb-2" />
-              <span className="text-xs sm:text-sm font-medium text-green-900">Add Society</span>
-            </button>
-            <button className="p-3 sm:p-4 text-center bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors duration-200">
-              <Truck className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600 mx-auto mb-2" />
-              <span className="text-xs sm:text-sm font-medium text-purple-900">Manage Vendors</span>
-            </button>
-            <button className="p-3 sm:p-4 text-center bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors duration-200">
-              <UserCheck className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600 mx-auto mb-2" />
-              <span className="text-xs sm:text-sm font-medium text-orange-900">View Reports</span>
-            </button>
+            <Link to="/events/create" className="block">
+              <div className="p-3 sm:p-4 text-center bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors duration-200 cursor-pointer">
+                <Calendar className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 mx-auto mb-2" />
+                <span className="text-xs sm:text-sm font-medium text-blue-900">Create Event</span>
+              </div>
+            </Link>
+            
+            <Link to="/societies/add" className="block">
+              <div className="p-3 sm:p-4 text-center bg-green-50 hover:bg-green-100 rounded-lg transition-colors duration-200 cursor-pointer">
+                <Building2 className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 mx-auto mb-2" />
+                <span className="text-xs sm:text-sm font-medium text-green-900">Add Society</span>
+              </div>
+            </Link>
+            
+            <Link to="/vendors" className="block">
+              <div className="p-3 sm:p-4 text-center bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors duration-200 cursor-pointer">
+                <Truck className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600 mx-auto mb-2" />
+                <span className="text-xs sm:text-sm font-medium text-purple-900">Manage Vendors</span>
+              </div>
+            </Link>
+            
+            <Link to="/reports" className="block">
+              <div className="p-3 sm:p-4 text-center bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors duration-200 cursor-pointer">
+                <UserCheck className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600 mx-auto mb-2" />
+                <span className="text-xs sm:text-sm font-medium text-orange-900">View Reports</span>
+              </div>
+            </Link>
           </div>
         </CardContent>
       </Card>
